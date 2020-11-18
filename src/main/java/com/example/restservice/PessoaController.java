@@ -1,8 +1,12 @@
 package com.example.restservice;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static java.time.LocalDateTime.now;
@@ -16,28 +20,32 @@ public class PessoaController {
     private final AtomicLong counter = new AtomicLong();
     private final ArrayList<Pessoa> lista = new ArrayList<>();
 
-
-    @GetMapping("/greeting")
-    public Pessoa greeting(@RequestParam(value = "name", defaultValue = "value") String name) {
-        Pessoa p = new Pessoa(counter.incrementAndGet(), String.format(template, name + counter));
+    @PostMapping("/novaPessoa")
+    public Pessoa novaPessoa(@RequestBody() Pessoa dadosPessoa) {
+        System.out.println("Json = " + dadosPessoa);
+        Pessoa p = new Pessoa(counter.incrementAndGet(), String.format(template, dadosPessoa.getNome() + " - " + counter));
         lista.add(p);
         int total = lista.size();
 
-        System.out.println("total pessoa = " + total);
         return lista.get(total-1);
     }
 
-    @RequestMapping(value = "/greeting/item/{id}", method = GET)
-    public DetalhePessoa greetingID(@PathVariable(value = "id") int id) {
-        System.out.println("id pessoa = " + id);
+    @GetMapping("/pessoa")
+    public List<Pessoa> pessoa() {
+        return lista;
+    }
+
+    @RequestMapping(value = "/pessoa/id/{id}", method = GET)
+    public DetalhePessoa pessoaID(@PathVariable(value = "id") int id) {
         int total = lista.size();
 
         if (id > 0 && id < total) {
             Pessoa p = lista.get(id-1);
             return new DetalhePessoa(p, total);
         } else {
-            Pessoa p = new Pessoa(0, "item deve ser maior do que: 0 (zero)");
+            Pessoa p = new Pessoa(0, "id inválido");
             return new DetalhePessoa(p, total);
         }
     }
+
 }
