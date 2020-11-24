@@ -47,5 +47,4 @@ public class PessoaController {
             return new DetalhePessoa(p, total);
         }
     }
-
 }
