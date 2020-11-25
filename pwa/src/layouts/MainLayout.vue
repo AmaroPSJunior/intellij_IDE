@@ -70,7 +70,7 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData,
-      pessoaService: null,
+      pessoaServiceBiz: null,
       lista: null,
     };
   },
@@ -78,7 +78,7 @@ export default {
   async created() {
     try {
       await this.carregarRecursos();
-      this.pessoas();
+      this.novaPessoa();
     } catch (e) {
       console.console('🔴 e: ', e);
     }
@@ -90,8 +90,19 @@ export default {
     async carregarRecursos() {
       try {
         const factory = new ServiceFactory(this.$http);
-        console.log('🟢 factory ', factory);
-        this.pessoaService = await factory.pessoaService();
+        this.pessoaServiceBiz = await factory.pessoaService();
+      } catch (e) {
+        console.error('🔴 e: ', e);
+      }
+    },
+
+    async novaPessoa() {
+      try {
+        const obj = { nome: 'Amaro' };
+        const res = await this.pessoaServiceBiz.novaPessoa(obj);
+        this.lista = res;
+        alert('post');
+        console.log('🟢 post: ', res);
       } catch (e) {
         console.error('🔴 e: ', e);
       }
@@ -99,10 +110,10 @@ export default {
 
     async pessoas() {
       try {
-        const res = await this.pessoaService.listaPessoas();
+        const res = await this.pessoaServiceBiz.pessoaPorId();
         this.lista = res;
-        alert('teste');
-        console.log('🟢 res: ', res);
+        alert('get');
+        console.log('🟢 get: ', res);
       } catch (e) {
         console.error('🔴 e: ', e);
       }

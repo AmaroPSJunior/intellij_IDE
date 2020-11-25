@@ -1,7 +1,11 @@
 import Vue from 'vue';
+import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 
 import routes from './routes';
+
+Vue.use(VueResource);
+Vue.http.options.root = 'http://localhost:8080/';
 
 Vue.use(VueRouter);
 

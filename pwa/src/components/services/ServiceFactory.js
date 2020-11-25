@@ -4,16 +4,17 @@ export default class ServiceFactory {
   }
 
   loadPromise(promiFn) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const promi = promiFn();
-      promi.then((modu) => {
-        console.log('🟢 modu', modu);
-        const instancia = new modu.Default({ ttp: this.$http });
+      promi.then((moduloRes) => {
+        const instancia = new moduloRes.default({ http: this.$http });
         instancia.http = this.$http;
         resolve(instancia);
-      });
+      }).catch(reject);
     });
   }
 
-  pessoaService() { return this.loadPromise(() => import('./biz/PessoaServiceBiz')); }
+  pessoaService() {
+    return this.loadPromise(() => import('./biz/PessoaServiceBiz'));
+  }
 }

@@ -1,22 +1,23 @@
-export default class MenuResource {
+export default class PessoaResource {
   constructor(injectables) {
-    this.$http = injectables.http;
+    this.$http = injectables;
   }
 
-  async listaPessoas() {
-    const response = await this.$http.get('pessoa/');
+  listaPessoas() {
+    const response = await this.$http.get('pessoa/').then((res) => res))
     const rs = await response.json();
     return rs;
   }
 
-  async pessoaPorId(id) {
-    const response = await this.$http.get(`pessoa/id/${id}`);
+  pessoaPorId(id) {
+    const response = await this.$http.get(`pessoa/id/${id}`).then((res) => res))
     const rs = await response.json();
     return rs;
   }
 
-  async novaPessoa(pessoa) {
-    const response = await this.$http.post('pessoa/', pessoa);
+  novaPessoa(pessoa) {
+    debugger;
+    const response = await this.$http.post('pessoa/', pessoa).then((res) => res))
     const rs = await response.json();
     return rs;
   }

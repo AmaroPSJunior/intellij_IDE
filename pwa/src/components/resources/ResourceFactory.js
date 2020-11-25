@@ -9,9 +9,8 @@ export default class ResourceFactory {
       if (this.map[mappingName]) {
         resolve(this.map[mappingName]);
       } else {
-        loadFn().then((modu) => {
-          console.log('🟢 modu', modu);
-          const instancia = new modu.Default(this.injectables);
+        loadFn().then((moduloRes) => {
+          const instancia = new moduloRes.default(this.injectables);
           this.map[mappingName] = instancia;
           resolve(instancia);
         }).catch(reject);
@@ -19,7 +18,5 @@ export default class ResourceFactory {
     });
   }
 
-  pessoa() {
-    return this.createOrLoadPromise('pessoa', () => import('./ws/PessoaResource'));
-  }
+  pessoa() { return this.createOrLoadPromise('pessoa', () => import('./ws/PessoaResource')); }
 }
