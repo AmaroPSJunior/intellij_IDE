@@ -27,15 +27,20 @@
     >
       <q-list>
         <q-item-label header class="text-grey-8">
-          Essential Links
+          Lista de Nomes
         </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
+        <input
+          type="text"
+          v-model="novoNome"
+        />
+        <button @click="novaPessoa">Novo</button>
+        <hr>
+        <Menu
+          v-for="item in itensMenu"
+          :key="item.id"
+          v-bind="item"
         />
       </q-list>
-      <button @click="pessoas">teste</button>
     </q-drawer>
 
     <q-page-container>
@@ -45,78 +50,54 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue';
+import Menu from '../components/Menu.vue';
 import ServiceFactory from '../components/services/ServiceFactory.js';
-
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-];
 
 export default {
   name: 'MainLayout',
-  components: { EssentialLink },
+  components: { Menu },
   data() {
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData,
+      itensMenu: [],
       pessoaServiceBiz: null,
-      lista: null,
+      novoNome: null,
     };
   },
 
-  async created() {
-    try {
-      await this.carregarRecursos();
-      this.novaPessoa();
-    } catch (e) {
-      console.console('🔴 e: ', e);
-    }
+  created() {
+    this.carregarRecursos()
+      .then(() => this.pessoas())
+      .catch((e) => alert('🔴 created: ', e));
   },
 
   updated() {},
 
   methods: {
-    async carregarRecursos() {
-      try {
+    carregarRecursos() {
+      return new Promise((resolve, reject) => {
         const factory = new ServiceFactory(this.$http);
-        this.pessoaServiceBiz = await factory.pessoaService();
-      } catch (e) {
-        console.error('🔴 e: ', e);
+        factory.pessoaService()
+          .then((servRes) => this.pessoaServiceBiz = servRes)
+          .then(resolve)
+          .catch(reject);
+      });
+    },
+
+    novaPessoa() {
+      if (this.novoNome) {
+        const obj = { nome: this.novoNome };
+        this.pessoaServiceBiz.novaPessoa(obj)
+          .then(() => this.novoNome = null)
+          .then(() => this.pessoas())
+          .catch((e) => alert('🔴 novaPessoa: ', e));
       }
     },
 
-    async novaPessoa() {
-      try {
-        const obj = { nome: 'Amaro' };
-        const res = await this.pessoaServiceBiz.novaPessoa(obj);
-        this.lista = res;
-        alert('post');
-        console.log('🟢 post: ', res);
-      } catch (e) {
-        console.error('🔴 e: ', e);
-      }
-    },
-
-    async pessoas() {
-      try {
-        const res = await this.pessoaServiceBiz.pessoaPorId();
-        this.lista = res;
-        alert('get');
-        console.log('🟢 get: ', res);
-      } catch (e) {
-        console.error('🔴 e: ', e);
-      }
+    pessoas() {
+      this.pessoaServiceBiz.listaPessoas()
+        .then((res) => this.itensMenu = res)
+        .catch((e) => alert('🔴 pessoas: ', e));
     },
   },
 };

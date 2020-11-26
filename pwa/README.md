@@ -1,4 +1,4 @@
-# springVueApp (front)
+# springVuePwa (front)
 
 treinando sitgema pwa com spring e vue
 

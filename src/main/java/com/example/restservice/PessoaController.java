@@ -3,6 +3,7 @@ package com.example.restservice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Entity;
 
 import java.lang.reflect.Member;
 import java.util.ArrayList;
@@ -16,14 +17,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 public class PessoaController {
 
-    private static final String template = "Valor, %s!";
+    private static final String template = "Sr. %s";
     private final AtomicLong counter = new AtomicLong();
     private final ArrayList<Pessoa> lista = new ArrayList<>();
 
     @PostMapping("/novaPessoa")
     public Pessoa novaPessoa(@RequestBody() Pessoa dadosPessoa) {
-        System.out.println("Json = " + dadosPessoa);
-        Pessoa p = new Pessoa(counter.incrementAndGet(), String.format(template, dadosPessoa.getNome() + " - " + counter));
+        System.out.println("Class = " + dadosPessoa);
+        Pessoa p = new Pessoa(counter.incrementAndGet(), String.format("Sr. %s", dadosPessoa.getNome() + " - " + counter));
         lista.add(p);
         int total = lista.size();
 
@@ -39,7 +40,7 @@ public class PessoaController {
     public DetalhePessoa pessoaID(@PathVariable(value = "id") int id) {
         int total = lista.size();
 
-        if (id > 0 && id < total) {
+        if (id > 0 && id <= total) {
             Pessoa p = lista.get(id-1);
             return new DetalhePessoa(p, total);
         } else {

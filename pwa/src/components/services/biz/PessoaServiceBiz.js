@@ -6,14 +6,29 @@ export default class PessoaServiceBiz {
   }
 
   listaPessoas() {
-    this.resourceFactory.pessoa().then((res) => res.listaPessoas());
+    return new Promise((resolve, reject) => {
+      this.resourceFactory.pessoa()
+        .then((res) => res.listaPessoas())
+        .then(resolve)
+        .catch(reject);
+    });
   }
 
   pessoaPorId(id) {
-    this.resourceFactory.pessoa().then((res) => res.pessoaPorwId(id));
+    return new Promise((resolve, reject) => {
+      this.resourceFactory.pessoa()
+        .then((res) => res.pessoaPorId(id))
+        .then(resolve)
+        .catch(reject);
+    });
   }
 
   novaPessoa(pessoaa) {
-    this.resourceFactory.pessoa().then((res) => res.novaPessoa(pessoaa));
+    return new Promise((resolve, reject) => {
+      this.resourceFactory.pessoa()
+        .then((res) => res.novaPessoa(pessoaa))
+        .then(resolve)
+        .catch(reject);
+    });
   }
 }

@@ -3,17 +3,30 @@ export default class PessoaResource {
     this.$http = injectables;
   }
 
-  listaPessoas() { return this.$http.http.get('pessoa/').then((res) => res.json()); }
+  listaPessoas() {
+    return new Promise((resolve, reject) => {
+      this.$http.http.get('pessoa/')
+        .then((res) => res.json())
+        .then(resolve)
+        .catch(reject);
+    });
+  }
 
-  pessoaPorId(id) { return this.$http.http.get(`pessoa/id/${id}`).then((res) => res.json()); }
+  pessoaPorId(id) {
+    return new Promise((resolve, reject) => {
+      this.$http.http.get(`pessoa/id/${id}`)
+        .then((res) => res.json())
+        .then(resolve)
+        .catch(reject);
+    });
+  }
 
   novaPessoa(pessoa) {
-    console.log('🔵 novaPessoa > this.$http', this.$http);
-
-    return this.$http.http.post('pessoa/', pessoa)
-      .then((res) => {
-        console.log('🔵 novaPessoa > res', res);
-        return res.json();
-      });
+    return new Promise((resolve, reject) => {
+      this.$http.http.post('novaPessoa/', pessoa)
+        .then((res) => res.json())
+        .then(resolve)
+        .catch(reject);
+    });
   }
 }

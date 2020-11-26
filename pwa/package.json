@@ -2,7 +2,7 @@
   "name": "front",
   "version": "0.0.1",
   "description": "treinando sitgema pwa com spring e vue",
-  "productName": "springVueApp",
+  "productName": "springVuePwa",
   "author": "Amaro arcamos.j@gmail.com",
   "private": true,
   "scripts": {

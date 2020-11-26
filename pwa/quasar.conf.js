@@ -117,8 +117,8 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'springVueApp',
-        short_name: 'springVueApp',
+        name: 'springVuePwa',
+        short_name: 'springVuePwa',
         description: 'treinando sitgema pwa com spring e vue',
         display: 'standalone',
         orientation: 'portrait',
