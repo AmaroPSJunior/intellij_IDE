@@ -2,7 +2,8 @@
   <q-item
     clickable
     tag="a"
-    :to="link"
+    @click="enviarPessoaId"
+    :to="url"
   >
     <q-item-section
       v-if="icon"
@@ -23,6 +24,11 @@
 export default {
   name: 'Menu',
   props: {
+    id: {
+      type: Number,
+      default: null,
+    },
+
     nome: {
       type: String,
       required: true,
@@ -43,5 +49,28 @@ export default {
       default: '',
     },
   },
+
+  data() {
+    return {
+      url: '/',
+    };
+  },
+
+  created() {
+    if (this.id) {
+      this.url = `${this.link}?id=${this.id}`;
+    }
+  },
+
+  updated() {},
+
+  methods: {
+    enviarPessoaId() {
+      const elementoPai = this.$parent.$parent.$parent.$parent;
+      elementoPai.$emit('onAtualizaId', this.id);
+    },
+  },
+
+  watch: {},
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" id="amaro">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -29,12 +29,17 @@
         <q-item-label header class="text-grey-8">
           Lista de Nomes
         </q-item-label>
+         <Menu
+          v-for="item in home"
+          :key="item.nome"
+          v-bind="item"
+        />
+        <hr>
         <input
           type="text"
           v-model="novoNome"
         />
         <button @click="novaPessoa">Novo</button>
-        <hr>
         <Menu
           v-for="item in itensMenu"
           :key="item.id"
@@ -44,7 +49,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view :pessoaId="pessoaId" />
     </q-page-container>
   </q-layout>
 </template>
@@ -62,13 +67,23 @@ export default {
       itensMenu: [],
       pessoaServiceBiz: null,
       novoNome: null,
+      pessoaId: null,
+      home: [
+        {
+          nome: 'Home',
+          uri: '',
+          link: '/',
+          icon: 'home',
+        },
+      ],
     };
   },
 
   created() {
+    this.$on('onAtualizaId', (pessoaId) => this.atualizaId(pessoaId));
     this.carregarRecursos()
       .then(() => this.pessoas())
-      .catch((e) => alert('🔴 created: ', e));
+      .catch((e) => console.error('🔴 created: ', e));
   },
 
   updated() {},
@@ -90,14 +105,18 @@ export default {
         this.pessoaServiceBiz.novaPessoa(obj)
           .then(() => this.novoNome = null)
           .then(() => this.pessoas())
-          .catch((e) => alert('🔴 novaPessoa: ', e));
+          .catch((e) => console.error('🔴 novaPessoa: ', e));
       }
     },
 
     pessoas() {
       this.pessoaServiceBiz.listaPessoas()
         .then((res) => this.itensMenu = res)
-        .catch((e) => alert('🔴 pessoas: ', e));
+        .catch((e) => console.error('🔴 pessoas: ', e));
+    },
+
+    atualizaId(pessoaId) {
+      this.pessoaId = pessoaId;
     },
   },
 };

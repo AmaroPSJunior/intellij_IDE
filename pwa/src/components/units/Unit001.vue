@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5>Hash: {{hash}}</h5>
+    <h5>pessoaId: {{ pessoaId }}</h5>
     <span>Pessoa: {{ pessoa.nome + '/' }}</span>
   </div>
 </template>
@@ -11,24 +11,30 @@ export default {
   components: {},
 
   props: {
-    id: {
+    pessoaId: {
       type: Number,
-      required: true,
-      default: 3,
+      require: true,
+      default: null,
     },
   },
 
   data() {
     return {
+      pessoaServiceBiz: null,
       pessoa: {},
       hash: null,
+      url: null,
     };
   },
 
   created() {
     this.carregarRecursos()
-      .then(() => this.pessoaPorId())
-      .catch((e) => alert('🔴 created: ', e));
+      .then(() => this.obterPessoa())
+      .catch((e) => console.error('🔴 created: ', e));
+  },
+
+  updated() {
+    // this.obterPessoa();
   },
 
   methods: {
@@ -42,11 +48,16 @@ export default {
       });
     },
 
-    pessoaPorId() {
-      this.pessoaServiceBiz.pessoaPorId(this.id)
+    obterPessoa() {
+      this.pessoaServiceBiz.pessoaPorId(this.pessoaId)
         .then((pessoaRes) => this.pessoa = pessoaRes.pessoa)
-        .then(() => this.hash = window.location.hash)
-        .catch((e) => alert('🔴 pessoas: ', e));
+        .catch((e) => console.error('🔴 obterPessoa: ', e));
+    },
+  },
+
+  watch: {
+    pessoaId: function () {
+      this.obterPessoa();
     },
   },
 };
