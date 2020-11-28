@@ -57,7 +57,7 @@ export default class VueCustomRegisterer {
     _formataAtivoInativo(val) {
         if(val || 'S' == val) {
             return 'ATIVO';
-        } 
+        }
 
         return 'INATIVO';
     }
@@ -65,7 +65,7 @@ export default class VueCustomRegisterer {
     _formataInRemovido(val) {
         if(val || 'S' == val) {
             return 'REMOVIDO';
-        } 
+        }
 
         return 'ATIVO';
     }
