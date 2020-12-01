@@ -82,6 +82,7 @@ export default {
   created() {
     this.$on('onAtualizaId', (pessoaId) => this.atualizaId(pessoaId));
     this.carregarRecursos()
+      // .then(() => this.addPessoas())
       .then(() => this.pessoas())
       .catch((e) => console.error('🔴 created: ', e));
   },
@@ -117,6 +118,12 @@ export default {
 
     atualizaId(pessoaId) {
       this.pessoaId = pessoaId;
+    },
+
+    addPessoas() {
+      this.pessoaServiceBiz.novaPessoa({ nome: 'Junior' })
+        .then((res) => this.itensMenu = res)
+        .catch((e) => console.error('🔴 pessoas: ', e));
     },
   },
 };

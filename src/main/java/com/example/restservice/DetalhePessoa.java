@@ -1,5 +1,7 @@
 package com.example.restservice;
 
+import com.example.models.Pessoa;
+
 public class DetalhePessoa {
     private final Pessoa pessoa;
     private final int total;

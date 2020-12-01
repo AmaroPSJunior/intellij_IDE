@@ -23,10 +23,10 @@ export default class PessoaServiceBiz {
     });
   }
 
-  novaPessoa(pessoaa) {
+  novaPessoa(pessoa) {
     return new Promise((resolve, reject) => {
       this.resourceFactory.pessoa()
-        .then((res) => res.novaPessoa(pessoaa))
+        .then((res) => res.novaPessoa(pessoa))
         .then(resolve)
         .catch(reject);
     });

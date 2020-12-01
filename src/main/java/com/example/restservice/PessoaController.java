@@ -1,16 +1,12 @@
 package com.example.restservice;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.models.Pessoa;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.Entity;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static java.time.LocalDateTime.now;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 
@@ -24,9 +20,12 @@ public class PessoaController {
     @PostMapping("/novaPessoa")
     public Pessoa novaPessoa(@RequestBody() Pessoa dadosPessoa) {
         System.out.println("Class = " + dadosPessoa);
-        Pessoa p = new Pessoa(counter.incrementAndGet(), String.format("Sr. %s", dadosPessoa.getNome() + " - " + counter));
+        Pessoa p = new Pessoa(counter.incrementAndGet(), String.format("Sr. %s", dadosPessoa.getNome() + " - " + counter, 100));
+        p.setTeste("Teste - " + dadosPessoa.getNome());
         lista.add(p);
         int total = lista.size();
+
+
 
         return lista.get(total-1);
     }
