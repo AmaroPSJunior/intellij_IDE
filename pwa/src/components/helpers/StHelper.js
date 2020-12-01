@@ -99,7 +99,7 @@ export default class StHelper {
                 vl = vl.toISOString();
             }
             return vl.split('T')[0];
-        } 
+        }
         return vl;
     }
 
@@ -113,20 +113,20 @@ export default class StHelper {
 
     /**
      * Default datepicker initializer for mercantio, the initializer can be customized with other materialize datepicker options
-     * through the parameter extraOptions. 
-     * (for more info about datepicker options, see the documentation in the link https://materializecss.com/pickers.html) 
-     * 
+     * through the parameter extraOptions.
+     * (for more info about datepicker options, see the documentation in the link https://materializecss.com/pickers.html)
+     *
      * Eg. StHelper.setDefaultDatePicker(referenceOfMyDatePicker, {minDate: new Date()});
-     * 
+     *
      * @param {any} selector // DOM materialize datepicker reference
-     * @param  {...Object} datePickerOptions 
+     * @param  {...Object} datePickerOptions
      */
     static setDefaultDatePicker(selector, ...datePickerOptions) {
         let options = {
             selectMonths: true, // Creates a dropdown to control month
             selectYears: 15, // Creates a dropdown of 15 years to control year
             i18n: {
-                clear:'Limpar', 
+                clear:'Limpar',
                 done:'Ok',
                 cancel:'Cancelar',
                 months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
@@ -139,7 +139,7 @@ export default class StHelper {
                 weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
                 weekdaysAbbrev: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
                 today: 'Hoje',
-            }, 
+            },
             format: 'dd/mm/yyyy',
         };
         datePickerOptions.forEach(option => Object.keys(option).forEach(key => options[key] = option[key]));
@@ -179,7 +179,7 @@ export default class StHelper {
             return null;
         }
     }
-    
+
     static range (start, end) { return [...Array(1+end-start).keys()].map(v => start+v) };
 
 
@@ -243,7 +243,7 @@ export default class StHelper {
             }
         }
     }
-    
+
     static quebraLinha(texto) {
         if (texto) {
             return texto.replace(/<<csr>>/g,'<br>').replace(/\n/g,'<br>').replace(/<<csq>>/g,'<br>');
@@ -268,7 +268,7 @@ export default class StHelper {
 
     static updateMaterializeFields(arr ) {
         let elements = StHelper._filteredComponents(arr);
-        M.updateTextFields(elements);         
+        M.updateTextFields(elements);
     }
 
     static activateMaterialSelect(arr) {
@@ -290,35 +290,35 @@ export default class StHelper {
             }
         });
     }
-    
+
     // static validarCnpj(cnpj) {
     //     let exp = /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/g;
     //     return exp.test(cnpj);
     // }
 
     static validarCnpj(cnpj) {
-        
+
            cnpj = cnpj.replace(/[^\d]+/g,'');
            cnpj = StHelper.lpad(cnpj,'0',14);
-        
+
            if(cnpj == '') return false;
-            
+
            if (cnpj.length != 14)
                return false;
-        
+
            // Elimina CNPJs invalidos conhecidos
-           if (cnpj == "00000000000000" || 
-               cnpj == "11111111111111" || 
-               cnpj == "22222222222222" || 
-               cnpj == "33333333333333" || 
-               cnpj == "44444444444444" || 
-               cnpj == "55555555555555" || 
-               cnpj == "66666666666666" || 
-               cnpj == "77777777777777" || 
-               cnpj == "88888888888888" || 
+           if (cnpj == "00000000000000" ||
+               cnpj == "11111111111111" ||
+               cnpj == "22222222222222" ||
+               cnpj == "33333333333333" ||
+               cnpj == "44444444444444" ||
+               cnpj == "55555555555555" ||
+               cnpj == "66666666666666" ||
+               cnpj == "77777777777777" ||
+               cnpj == "88888888888888" ||
                cnpj == "99999999999999")
                return false;
-                
+
            // Valida DVs
            let tamanho = cnpj.length - 2
            let numeros = cnpj.substring(0,tamanho);
@@ -333,7 +333,7 @@ export default class StHelper {
            let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
            if (resultado != digitos.charAt(0))
                return false;
-                
+
            tamanho = tamanho + 1;
            numeros = cnpj.substring(0,tamanho);
            soma = 0;
@@ -346,17 +346,17 @@ export default class StHelper {
            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
            if (resultado != digitos.charAt(1))
                  return false;
-                  
+
            return true;
        }
-    
+
     /**
-     *  Compara o mês entre duas datas, retorna 0 caso os meses sejam iguais, retorna 1 caso o primeiraData seja maior que 
+     *  Compara o mês entre duas datas, retorna 0 caso os meses sejam iguais, retorna 1 caso o primeiraData seja maior que
      *  a segunda, retorna -1 caso a primeiraData seja menor que a segunda.
-     * @param {Date} primeiraData 
-     * @param {Date} segundaData 
+     * @param {Date} primeiraData
+     * @param {Date} segundaData
      */
-    static compararMesEntreDatas(primeiraData, segundaData){        
+    static compararMesEntreDatas(primeiraData, segundaData){
         return moment.default(primeiraData).month()==moment.default(segundaData).month()?0:moment.default(primeiraData).month()<moment.default(segundaData).month()?-1:1;
     }
 
@@ -377,7 +377,7 @@ export default class StHelper {
     /**
      *  Recebe uma string no formato DD/MM/YYYY (formato padrão da string que os datepickers do materialize retorna)
      *  e retorna uma data do tipo nativo do javascript
-     * @param {String} stringDate 
+     * @param {String} stringDate
      */
     static stringToDate(stringDate) {
         if (stringDate) {
@@ -387,12 +387,12 @@ export default class StHelper {
             return null;
         }
     }
-    
+
     /**
-     *  Compara duas datas, retorna 0 caso elas sejam iguais, retorna 1 caso o primeiraData seja maior que 
+     *  Compara duas datas, retorna 0 caso elas sejam iguais, retorna 1 caso o primeiraData seja maior que
      *  a segundaData, retorna -1 caso a primeiraData seja menor que a segundaData.
-     * @param {Date} primeiraData 
-     * @param {Date} segundaData 
+     * @param {Date} primeiraData
+     * @param {Date} segundaData
      */
     static compararDatas(primeiraData, segundaData) {
         return moment.default(primeiraData).isSame(segundaData, 'day')?0:moment.default(primeiraData, 'day').isBefore(segundaData)?-1:1;
@@ -408,7 +408,7 @@ export default class StHelper {
 		}
 		return dt;
     }
-    
+
     static dateToIso8601(data){
         let dt = this.tratarDate(data);
         return moment.default(dt).format();
@@ -456,7 +456,7 @@ export default class StHelper {
 
     static dateIsBetween(dt, dtFrom, dtTo) {
         if (!dt) return false;
-        return StHelper.truncateDate(dt) >= StHelper.truncateDate(dtFrom) 
+        return StHelper.truncateDate(dt) >= StHelper.truncateDate(dtFrom)
             && StHelper.truncateDate(dt) <= StHelper.truncateDate(dtTo) ;
     }
 
@@ -470,12 +470,12 @@ export default class StHelper {
 	static snToBoolean(sn) {
 		return sn === 'S' || sn === 's'? true:false;
 	}
-	
+
 	static safeTrim(v) {
 		if (!v) return '';
 		else v.trim();
     }
-    
+
     static getLocalStorageItem(key, defaultValue) {
         let ret = localStorage.getItem(key);
         if (!ret || ret == 'undefined') {
@@ -487,73 +487,73 @@ export default class StHelper {
 
     /**
      * Adiciona a quantidade de dias passados no parâmetro days a data informada na variavel date
-     * 
-     * @param {Date} date 
-     * @param {int} days 
+     *
+     * @param {Date} date
+     * @param {int} days
      */
-    static adicionarDias(date, days) {            
-        return moment.default(date).add(days, 'd').toDate(); 
+    static adicionarDias(date, days) {
+        return moment.default(date).add(days, 'd').toDate();
     }
 
     /**
      * Adiciona a quantidade de mêses passados no parâmetro months a data informada na variavel date
-     * 
-     * @param {Date} date 
-     * @param {int} months 
+     *
+     * @param {Date} date
+     * @param {int} months
      */
-    static adicionarMeses(date, months) {            
-        return moment.default(date).add(months, 'M').toDate(); 
+    static adicionarMeses(date, months) {
+        return moment.default(date).add(months, 'M').toDate();
     }
 
     /**
      * Adiciona a quantidade de anos passados no parâmetro years a data informada na variavel date
-     * 
-     * @param {Date} date 
-     * @param {int} years 
+     *
+     * @param {Date} date
+     * @param {int} years
      */
-    static adicionarAnos(date, years) {            
-        return moment.default(date).add(years, 'y').toDate(); 
+    static adicionarAnos(date, years) {
+        return moment.default(date).add(years, 'y').toDate();
     }
 
     /**
      * Adiciona a quantidade de horas passados no parâmetro hours a data informada na variavel date
-     * 
-     * @param {Date} date 
-     * @param {int} hours 
+     *
+     * @param {Date} date
+     * @param {int} hours
      */
-    static adicionarHoras(date, hours) {            
-        return moment.default(date).add(hours, 'h').toDate(); 
+    static adicionarHoras(date, hours) {
+        return moment.default(date).add(hours, 'h').toDate();
     }
 
     /**
      * Adiciona a quantidade de minutos passados no parâmetro minutes a data informada na variavel date
-     * 
-     * @param {Date} date 
-     * @param {int} minutes 
+     *
+     * @param {Date} date
+     * @param {int} minutes
      */
-    static adicionarMinutos(date, minutes) {            
-        return moment.default(date).add(minutes, 'm').toDate(); 
+    static adicionarMinutos(date, minutes) {
+        return moment.default(date).add(minutes, 'm').toDate();
     }
 
     /**
      * Adiciona a quantidade de segundos passados no parâmetro seconds a data informada na variavel date
-     * 
-     * @param {Date} date 
-     * @param {int} seconds 
+     *
+     * @param {Date} date
+     * @param {int} seconds
      */
-    static adicionarSegundos(date, seconds) {            
-        return moment.default(date).add(seconds, 's').toDate(); 
+    static adicionarSegundos(date, seconds) {
+        return moment.default(date).add(seconds, 's').toDate();
     }
 
     static calcularDiasAteHoje(dt) {
-        return moment.default().diff(dt,'days');		
+        return moment.default().diff(dt,'days');
     }
 
     /**
      *  Retorna uma função de ordenação dinamica de objetos para ser utilizado em conjunto com o método sort do javascript.
      *  recebe como argumento o nome da propriedade (String) que deve ser considerada para ordenação. Para ordenar em ordem decrescente
      *  deve-se informar um sinal de "-" (menos) na frente do parâmetro.
-     * @param {*} property 
+     * @param {*} property
      */
     static dynamicArraySort(property){
         let sortOrder = 1;
@@ -603,9 +603,9 @@ export default class StHelper {
             const men = menus.filter(function(menu){
                 return  menu.itens.some(function(item) {
                     return item.unit === unit;
-               });    
+               });
             });
-            
+
             return men && men.length >= 1;
         } catch(e) {
             return false;

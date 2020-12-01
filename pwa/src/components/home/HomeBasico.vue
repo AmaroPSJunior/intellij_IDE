@@ -11,7 +11,7 @@ export default {
   data() {
     return {
       pessoaService: null,
-    }    
+    }
   },
   created() {
     this.carregarRecursos()
@@ -20,13 +20,13 @@ export default {
   },
 
   updated() {},
-  
+
   methods:{
 		async carregarRecursos() {
 				try {
           const sf = new ServiceFactory(this.$http);
           this.pessoaService	= await sf.pessoaService();
-				} catch(e) { 
+				} catch(e) {
           this.modalError = e;
 				}
 		}
