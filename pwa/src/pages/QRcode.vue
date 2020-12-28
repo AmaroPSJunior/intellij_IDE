@@ -1,22 +1,23 @@
 <template>
   <div>
-    <div class="" style="padding-bottom: 0px;text-align: center;">
+    <div v-if="result" class="" style="padding-bottom: 0px;text-align: center;">
         <p class="error">{{ error }}</p>
-        <p class="decode-result">Id: <b>{{ result }}</b></p>
+        <p class="decode-result">Nome: <b>{{ result.Nome }}</b></p>
+        <p class="decode-result">Idade: <b>{{ result.Idade }}</b></p>
     </div>
     <div v-if="!result">
+      <h3>Aponte o QRCode! <q-icon class="right" name="qr_code" /></h3>
       <qrcode-stream @decode="onDecode" @init="onInit" />
-      <h3>Amaro</h3>
     </div>
 
     <div class="v-card container" v-else style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
-        <div >
+        <div v-if="false">
             <p>Upload de arquivo da foto</p>
             <input :v-model="imagem" type="file" accept="image/*;capture=camera">
             <img :src="img" alt="">
         </div>
         <div>
-            <a href="#" class="v-btn btn primary">Enviar</a>
+            <a href="#" class="v-btn btn primary" v-if="false">Enviar</a>
             <a href="#" class="v-btn btn secondary" @click="result = null">Cancelar</a>
         </div>
     </div>
@@ -41,7 +42,8 @@ export default {
 
   methods: {
     onDecode (result) {
-      this.result = result
+      this.result = JSON.parse(result);
+      console.log('🔵 this.result', this.result)
     },
 
     async onInit (promise) {
