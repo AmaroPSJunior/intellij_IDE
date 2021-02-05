@@ -47,4 +47,9 @@ public class PessoaController {
             return new DetalhePessoa(p, total);
         }
     }
+
+    @GetMapping("/teste")
+    public String teste() {
+        return "<h1>Teste6</h1>";
+    }
 }
