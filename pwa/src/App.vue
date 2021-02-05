@@ -5,6 +5,6 @@
 </template>
 <script>
 export default {
-  name: 'App',
+  name: 'App', // 968277358 Carol
 };
 </script>
